@@ -18,4 +18,37 @@
             <li>{{ participant }} </li>
         {% endfor %}
     {% endif %}
+<div class="container">
+	<div class="row flex-column align-items-center text-center my-5 border border-primary">
+		<h1 class="mb-2">
+			{{ activity.name }}
+		</h1>
+		<img class="my-2" src='{{ activity.image }}' style='height: 200px; width: 200px'>
+		<p class="my-2">
+			Location : {{ activity.localisation }}
+		</p>
+		<p class="my-2">
+			Type of activity : {{ activity.activity_type }}
+		</p>
+		<p class="my-2">
+			Maximum of participants : {{ activity.max_registered_members }}
+		</p>
+		<p class="my-2">
+			Description : {{ activity.content }}
+		</p>
+		<p class="my-2">
+			Event created by : {{ activity.creator_name }}
+		</p>
+		<p class="mt-2">
+			Start at : {{ activity.start_at }}
+		</p>
+		<p class="mb-2">
+			End at : {{ activity.end_at }}
+		</p>
+		<p class="my-2">
+			<a href="/activity/join/?memberid={{ user.id }}&activityid={{ activity.id }}" class="btn btn-primary">Join</a>
+		</p>
+	</div>
+</div>
+
 {% endblock %}
