@@ -37,4 +37,14 @@ class MemberManager extends AbstractManager
 
         return $statement->fetch();
     }
+
+    public function selectOnlyNameById(int $id)
+    {
+
+        $statement = $this->pdo->prepare("SELECT name FROM " . static::TABLE . " WHERE id=:id");
+        $statement->bindValue('id', $id, \PDO::PARAM_STR);
+        $statement->execute();
+
+        return $statement->fetchColumn();
+    }
 }

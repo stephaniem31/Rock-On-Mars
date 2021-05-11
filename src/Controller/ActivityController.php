@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Model\ActivityManager;
+use App\Model\GatheringManager;
+use App\Model\MemberManager;
 use Symfony\Component\HttpClient\HttpClient;
 use App\Service\ValidationService;
 
@@ -45,9 +47,18 @@ class ActivityController extends AbstractController
     {
         session_start();
 
+        $participantsId = (new GatheringManager())->selectAllParticipantsbyActivityId((int)$_GET['id']);
+
+        $participantsName = [];
+
+        foreach ($participantsId as $participantId) {
+            array_push($participantsName, ((new MemberManager())->selectOnlyNameById((int)$participantId)));
+        }
+
         return $this->twig->render('Activity/show.html.twig', [
             'activity' => (new ActivityManager())->selectOneAndJoinMemberByActivityId((int)$_GET['id']),
-            'user' => $_SESSION['user']
+            'user' => $_SESSION['user'],
+            'participants' => $participantsName
         ]);
     }
 
@@ -65,8 +76,8 @@ class ActivityController extends AbstractController
             array_push($errors, $this->validationService->checkAddImage());
 
             $hasNotErrors = false;
-            foreach($errors as $error)
-            {
+
+            foreach ($errors as $error) {
                 $error === null ?  $hasNotErrors = true : $hasNotErrors = false;
             }
 
@@ -82,10 +93,25 @@ class ActivityController extends AbstractController
                     'image' => $_POST['image'],
                     'member_id' => ($_SESSION['user']['id']),
                 ];
-                (new ActivityManager())->insert($activity);
+                $activityId =  (new ActivityManager())->insert($activity);
+
+                $idArray = [
+                    'memberid' => $_SESSION['user']['id'],
+                    'activityid' => $activityId
+                ];
+
+                (new GatheringManager())->insert($idArray);
                 header('Location:/activity/index');
             }
         }
         return $this->twig->render('Activity/add.html.twig', [ 'errors' => $errors]);
+    }
+
+    public function join()
+    {
+        $_GET = array_map('intval', $_GET);
+
+        (new GatheringManager())->insert($_GET);
+        header('Location:/activity/show/?id=' . $_GET['activityid']);
     }
 }

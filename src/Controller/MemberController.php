@@ -20,7 +20,6 @@ class MemberController extends AbstractController
             $password = $_POST['password'];
             $memberArray = (new MemberManager())->selectOneByName($pseudo);
 
-
             if (password_verify($password, $memberArray['password'])) {
                 $_SESSION['user'] = $memberArray;
                 header('Location: /home/index');
@@ -56,5 +55,12 @@ class MemberController extends AbstractController
             }
         }
         return $this->twig->render('Member/signup.html.twig');
+    }
+
+    public function logout()
+    {
+        session_start();
+        session_destroy();
+        header('Location: /Home/index');
     }
 }
