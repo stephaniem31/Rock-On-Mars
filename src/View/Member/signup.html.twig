@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+	Sign up
+{% endblock %}
+
+{% block content %}
+<h1 class="signup mt-4 text-center">Inscrivez-vous</h1>
+<form method="POST" id="signup" name="signup" class="signup" action="">
+<div class="row d-flex justify-content-center">
+  <div class="mb-3 text-center col-8">
+    <label for="pseudo" class="form-label mt-4">Pseudo</label>
+    <input type="text" name="pseudo" class="form-control" id="pseudo" required>
+  </div>
+  <div class="mb-3 text-center col-8">
+    <label for="fav-activity" class="form-label">Activité préférée</label>
+    <input type="text" name="fav-activity" class="form-control" id="fav-activity">
+  </div>
+  <div class="mb-3 text-center col-8">
+    <label for="intro" class="form-label">Présentation</label>
+    <textarea type="text" name="bio" class="form-control" id="intro" cols="30" rows="4" placeholder="Présentez-vous en quelques mots..."></textarea>
+  </div>
+  <div class="mb-3 text-center col-8">
+    <label for="exampleInputPassword1" class="form-label">Mot de passe</label>
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+  </div>
+  <div class="mb-3 text-center col-8">
+    <label for="exampleInputPassword2" class="form-label">Répétez mot de passe</label>
+    <input type="password" name="repeatpassword" class="form-control" id="exampleInputPassword2">
+  </div>
+  <div class="form-group text-center">
+	<button type="submit" class="btn btn-primary my-3">Inscription
+	</button>
+    </div>
+    </div>
+</form>
+
+
+{% endblock %}

@@ -2,89 +2,66 @@
 
 namespace App\Controller;
 
-use App\Model\ItemManager;
 
-class ItemController extends AbstractController
+use App\Model\MemberManager;
+
+
+class MemberController extends AbstractController
 {
-    /**
-     * List items
-     */
-    public function index(): string
+    public function login()
     {
-        $itemManager = new ItemManager();
-        $items = $itemManager->selectAll('title');
+        if (isset($_SESSION["user"])) {
+            header('Location: /activity/index');
+        }
+        session_start();
+        $error = '';
 
-        return $this->twig->render('Item/index.html.twig', ['items' => $items]);
-    }
+        if (!empty($_POST)) {
+            $pseudo = $_POST['pseudo'];
+            $password = $_POST['password'];
+            $memberArray = (new MemberManager())->selectOneByName($pseudo);
+            
 
-
-    /**
-     * Show informations for a specific item
-     */
-    public function show(int $id): string
-    {
-        $itemManager = new ItemManager();
-        $item = $itemManager->selectOneById($id);
-
-        return $this->twig->render('Item/show.html.twig', ['item' => $item]);
-    }
-
-
-    /**
-     * Edit a specific item
-     */
-    public function edit(int $id): string
-    {
-        $itemManager = new ItemManager();
-        $item = $itemManager->selectOneById($id);
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // clean $_POST data
-            $item = array_map('trim', $_POST);
-
-            // TODO validations (length, format...)
-
-            // if validation is ok, update and redirection
-            $itemManager->update($item);
-            header('Location: /item/show/' . $id);
+            if (
+                !empty($_POST) &&
+                password_verify($password, $memberArray['password'])
+            ) {
+                $_SESSION['user'] = $memberArray;
+                header('Location: /home/index');
+            } else {
+                $error = 'Identifiants incorrects';
+            }
         }
 
-        return $this->twig->render('Item/edit.html.twig', [
-            'item' => $item,
+        return $this->twig->render('member/login.html.twig', [
+            'error' => $error,
         ]);
+
+        return $this->twig->render('Member/login.html.twig');
     }
 
-
-    /**
-     * Add a new item
-     */
-    public function add(): string
+    public function signUp()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // clean $_POST data
-            $item = array_map('trim', $_POST);
-
-            // TODO validations (length, format...)
-
-            // if validation is ok, insert and redirection
-            $itemManager = new ItemManager();
-            $id = $itemManager->insert($item);
-            header('Location:/item/show/' . $id);
+        if (!empty($_POST))
+        {
+            if ($_POST['password'] === $_POST['repeatpassword']) {
+                $MemberManager = new MemberManager();
+                $passwordHashed = password_hash($_POST['password'], PASSWORD_BCRYPT);
+                $MemberManager->insert([
+                    'name' => trim($_POST['pseudo']),
+                    'password' => trim($passwordHashed),
+                    'bio' => trim($_POST['bio']),
+                    'favorite_activity' => trim($_POST['fav-activity']),
+                    
+                ]);
+                $nameArray = $MemberManager->selectOneByName($_POST['pseudo']);
+                $nameArray['is_logged'] = true;
+                $_SESSION['user'] = $nameArray;
+                header('Location: /home/index');
+            } else {
+                header('Location: /Home/index');
+            }
         }
-
-        return $this->twig->render('Item/add.html.twig');
-    }
-
-
-    /**
-     * Delete a specific item
-     */
-    public function delete(int $id)
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $itemManager = new ItemManager();
-            $itemManager->delete($id);
-            header('Location:/item/index');
-        }
+        return $this->twig->render('Member/signUp.html.twig');
     }
 }
