@@ -76,7 +76,9 @@ class ActivityController extends AbstractController
             array_push($errors, $this->validationService->checkAddImage());
 
             $hasNotErrors = false;
+
             foreach ($errors as $error) {
+
                 $error === null ?  $hasNotErrors = true : $hasNotErrors = false;
             }
 
