@@ -22,7 +22,7 @@ class MemberController extends AbstractController
 
             if (password_verify($password, $memberArray['password'])) {
                 $_SESSION['user'] = $memberArray;
-                header('Location: /home/index');
+                header('Location: /activity/index');
             } else {
                 $error = 'Identifiants incorrects';
             }
@@ -35,6 +35,9 @@ class MemberController extends AbstractController
 
     public function signUp()
     {
+        if (isset($_SESSION["user"])) {
+            header('Location: /activity/index');
+        }
         if (!empty($_POST)) {
             if ($_POST['password'] === $_POST['repeatpassword']) {
                 $memberManager = new MemberManager();
