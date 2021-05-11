@@ -37,7 +37,7 @@ CREATE TABLE `activity`(
 	FOREIGN KEY(`member_id`) REFERENCES `member`(`id`)
 	);
 
-CREATE TABLE `group`(
+CREATE TABLE `gathering`(
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`activity_id` INT NOT NULL,	
 	`member_id` INT NOT NULL,

@@ -11,5 +11,11 @@
     <p> Event created by : {{ activity.creator_name }}
     <p>
         <a href="/activity/join/?memberid={{ user.id }}&activityid={{ activity.id }}" class="btn btn-primary">Join</a>
-    </p>  
+    </p>
+    <p>Participants:</p>
+    {% if participants is not empty %}
+        {% for participant in participants %}
+            <li>{{ participant }} </li>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
