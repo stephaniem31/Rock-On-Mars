@@ -4,39 +4,48 @@ namespace App\Controller;
 
 use App\Model\ActivityManager;
 use Symfony\Component\HttpClient\HttpClient;
+use App\Service\ValidationService;
 
 class ActivityController extends AbstractController
 {
+    /**
+     * @var ValidationService Service de validation
+     */
+    private ValidationService $validationService;
+
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->validationService = new ValidationService();
+    }
 
     /**
      * List items
      */
     public function index(): string
     {
-        // $activityManager = new ActivityManager();
-        // $activity = $activityManager->selectAll();
+        session_start();
 
-        return $this->twig->render('Activity/index.html.twig');
+        $activityManager = new ActivityManager();
+        $activities = $activityManager->selectAll();
+
+        return $this->twig->render('Activity/index.html.twig', [
+            'activities' => $activities,
+            'user' => $_SESSION['user']
+            ]);
     }
 
 
     /**
      * Show informations for a specific activity
      */
-    public function show($id): string
+    public function show(): string
     {
-        $activityManager = new ActivityManager();
-        $activity = $activityManager->selectOneById($id);
-
-
-        // $client = HttpClient::create();
-        // $response = $client->request('GET', 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=sGRiW62hIIGP2B3zRgfyyJ8bJn7qJeFx5lnza8PT');
-        // $content = $response->toArray();
-
-        // var_dump($content);
-        // exit;
-
-        return $this->twig->render('Activity/show.html.twig', ['activity' => $activity]);
+        return $this->twig->render('Activity/show.html.twig', [
+            'activity' => (new ActivityManager())->selectOneAndJoinMemberByActivityId((int)$_GET['id'])
+        ]);
     }
 
     /**
@@ -44,27 +53,13 @@ class ActivityController extends AbstractController
      */
     public function add(): string
     {
+        session_start();
+
         $errors = [];
-        $arrExtensionsOK = ['jpg','svg','png', 'jpeg'];
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // echo '<pre>';
-            // var_dump($_POST);
-            // exit;
-            // echo '<pre>';
-            $extension = (pathinfo($_POST['image'], PATHINFO_EXTENSION));
-
-            if (
-                empty($_POST['title']) || empty($_POST['activity_type'])
-                || empty($_POST['content']) || empty($_POST['max_registered_members'])
-                || empty($_POST['localisation']) || empty($_POST['start_at'])
-                || empty($_POST['end_at']) || empty($_POST['image'])
-            ) {
-                array_push($errors, 'Veuillez remplir tout les champs.');
-            }
-
-            if (!in_array($extension, $arrExtensionsOK)) {
-                array_push($errors, "L'url doit amener sur un fichier png, jpg, jpeg ou svg.");
-            }
+            array_push($errors, $this->validationService->checkAddFormEmptiness());
+            array_push($errors, $this->validationService->checkAddImage());
 
             if (empty($errors)) {
                 $activity = [
@@ -81,9 +76,7 @@ class ActivityController extends AbstractController
                 (new ActivityManager())->insert($activity);
                 header('Location:/activity/index');
             }
-            // header('Location:/activity/index/');
         }
-
         return $this->twig->render('Activity/add.html.twig', [ 'errors' => $errors]);
     }
 }
