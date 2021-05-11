@@ -124,7 +124,9 @@ class ActivityController extends AbstractController
         if ($_GET['user'] !== $_SESSION['user']['name']) {
             header('Location: /activity/index');
         } else {
-            echo 'vous êtes bien ' . $_SESSION['user']['name'];
+            return $this->twig->render('Activity/myactivities.html.twig', [
+                'myactivities' => (new ActivityManager())->selectAllByMemberId($_SESSION['user']['id'])
+            ]);
         }
     }
 }

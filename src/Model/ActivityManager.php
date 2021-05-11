@@ -71,4 +71,14 @@ class ActivityManager extends AbstractManager
 
         return $statement->fetch();
     }
+
+    public function selectAllByMemberId($memberId)
+    {
+
+        $statement = $this->pdo->prepare("SELECT * FROM " . static::TABLE . " WHERE member_id = :memberId");
+        $statement->bindValue(':memberId', $memberId, \PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
 }
