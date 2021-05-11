@@ -13,10 +13,10 @@ class ActivityController extends AbstractController
      */
     public function index(): string
     {
-        $activityManager = new ActivityManager();
-        $activity = $activityManager->selectAll();
+        // $activityManager = new ActivityManager();
+        // $activity = $activityManager->selectAll();
 
-        return $this->twig->render('Activity/index.html.twig', ['activity' => $activity]);
+        return $this->twig->render('Activity/index.html.twig');
     }
 
 
