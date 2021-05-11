@@ -3,18 +3,19 @@
 namespace App\Controller;
 
 use App\Model\ItemManager;
+use App\Model\ActivityManager;
 
-class ItemController extends AbstractController
+class ActivityController extends AbstractController
 {
     /**
      * List items
      */
     public function index(): string
     {
-        $itemManager = new ItemManager();
-        $items = $itemManager->selectAll('title');
+        $activityManager = new ActivityManager();
+        $activity = $activityManager->selectAll('title');
 
-        return $this->twig->render('Item/index.html.twig', ['items' => $items]);
+        return $this->twig->render('Activity/index.html.twig', ['activity' => $activity]);
     }
 
 
@@ -23,10 +24,10 @@ class ItemController extends AbstractController
      */
     public function show(int $id): string
     {
-        $itemManager = new ItemManager();
-        $item = $itemManager->selectOneById($id);
+        $activityManager = new ActivityManager();
+        $activity = $activityManager->selectOneById($id);
 
-        return $this->twig->render('Item/show.html.twig', ['item' => $item]);
+        return $this->twig->render('Activity/show.html.twig', ['activity' => $activity]);
     }
 
 
@@ -35,22 +36,22 @@ class ItemController extends AbstractController
      */
     public function edit(int $id): string
     {
-        $itemManager = new ItemManager();
-        $item = $itemManager->selectOneById($id);
+        $activityManager = new ActivityManager();
+        $activity = $activityManager->selectOneById($id);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // clean $_POST data
-            $item = array_map('trim', $_POST);
+            $activity = array_map('trim', $_POST);
 
             // TODO validations (length, format...)
 
             // if validation is ok, update and redirection
-            $itemManager->update($item);
-            header('Location: /item/show/' . $id);
+            $activityManager->update($activity);
+            header('Location: /activity/show/' . $id);
         }
 
         return $this->twig->render('Item/edit.html.twig', [
-            'item' => $item,
+            'activity' => $activity,
         ]);
     }
 
@@ -62,17 +63,17 @@ class ItemController extends AbstractController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // clean $_POST data
-            $item = array_map('trim', $_POST);
+            $activity = array_map('trim', $_POST);
 
             // TODO validations (length, format...)
 
             // if validation is ok, insert and redirection
-            $itemManager = new ItemManager();
-            $id = $itemManager->insert($item);
-            header('Location:/item/show/' . $id);
+            $activityManager = new ActivityManager();
+            $id = $activityManager->insert($activity);
+            header('Location:/activity/show/' . $id);
         }
 
-        return $this->twig->render('Item/add.html.twig');
+        return $this->twig->render('Activity/add.html.twig');
     }
 
 
@@ -82,9 +83,9 @@ class ItemController extends AbstractController
     public function delete(int $id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $itemManager = new ItemManager();
-            $itemManager->delete($id);
-            header('Location:/item/index');
+            $activityManager = new ActivityManager();
+            $activityManager->delete($id);
+            header('Location:/activity/index');
         }
     }
 }
