@@ -1,7 +1,31 @@
-.bg-primary, .btn-primary {
+/* .bg-primary {
     background-color: #f04502 !important;
+}
+
+.btn-primary {
+    background-color: #f04502 !important;;
 }
 
 .border-primary {
     border-color: #f04502 !important;
+} */
+
+body {
+    background-image: url(https://images-assets.nasa.gov/image/PIA24487/PIA24487~orig.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+form, .detailled-activity, .card {
+    background-color: #f04502;
+    background: linear-gradient(to right bottom, rgba(240, 69, 2, .40), rgba(240, 69, 2, .15));
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+form, .detailled-activity, .card {
+    border-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.35) rgba(255, 255, 255, 0.2);
+    box-shadow: 10px 7px 5px rgba(0, 0, 0, 0.363);
 }
