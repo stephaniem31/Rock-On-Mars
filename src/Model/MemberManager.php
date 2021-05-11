@@ -17,7 +17,7 @@ class MemberManager extends AbstractManager
         $statement->bindValue('password', $member['password'], \PDO::PARAM_STR);
         // $statement->bindValue('image', $member['image'], \PDO::PARAM_STR);
         // $statement->bindValue('is_logged', $member['is_logged'], \PDO::PARAM_BOOL);
-        $statement->bindValue('favorite_activity', $member['favorite_activity'], \PDO::PARAM_INT);
+        $statement->bindValue('favorite_activity', $member['favorite_activity'], \PDO::PARAM_STR);
         $statement->bindValue('bio', $member['bio'], \PDO::PARAM_STR);
 
         return $statement->execute();
