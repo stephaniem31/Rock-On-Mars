@@ -21,7 +21,7 @@ CREATE TABLE `member`(
 	);
 
 CREATE TABLE `activity`(
-	`id`INT NOT NULL AUTO_INCREMENT,
+	`id` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
 	`image` VARCHAR(255) NOT NULL,
 	`likes` INT NOT NULL DEFAULT 0,
@@ -33,13 +33,8 @@ CREATE TABLE `activity`(
     `content` VARCHAR(255) NOT NULL,
     `max_registered_members` INT NOT NULL,
     `member_id` INT NOT NULL,
-	`comment_id` INT NOT NULL,
-    `group_id` INT NOT NULL,
 	PRIMARY KEY(`id`),
-	FOREIGN KEY(`comment_id`) REFERENCES `comment`(`id`) ON DELETE CASCADE,
-	FOREIGN KEY(`member_id`) REFERENCES `member`(`id`),
-	FOREIGN KEY(`group_id`) REFERENCES `group`(`id`) ON DELETE CASCADE,
-
+	FOREIGN KEY(`member_id`) REFERENCES `member`(`id`)
 	);
 
 CREATE TABLE `group`(
@@ -47,7 +42,7 @@ CREATE TABLE `group`(
 	`activity_id` INT NOT NULL,	
 	`member_id` INT NOT NULL,
 	PRIMARY KEY(`id`),
-	FOREIGN KEY(`activity_id`) REFERENCES `activity`(`id`)
+	FOREIGN KEY(`activity_id`) REFERENCES `activity`(`id`),
 	FOREIGN KEY(`member_id`) REFERENCES `member`(`id`)
 	);
 
@@ -60,3 +55,4 @@ CREATE TABLE `comment`(
 	FOREIGN KEY(`member_id`) REFERENCES `member`(`id`),
 	FOREIGN KEY(`activity_id`) REFERENCES `activity`(`id`)
 );
+
