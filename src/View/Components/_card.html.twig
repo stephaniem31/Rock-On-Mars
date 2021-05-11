@@ -6,8 +6,11 @@
       <h5 class="card-title">{{ activity.name }}</h5>
       <p class="card-text">{{ activity.content }}</p>
       <p class="card-text">{{ activity.start_at }}</p>
-      <a href="/activity/show/?id={{ activity.id }}" class="btn btn-primary">See more</a>
-      <a href="/activity/join/?memberid={{ user.id }}&activityid={{ activity.id }}" class="btn btn-primary">Join</a>
+      {% if isOnHome is defined %}
+      {% else %}
+        <a href="/activity/show/?id={{ activity.id }}" class="btn btn-primary">See more</a>
+        <a href="/activity/join/?memberid={{ user.id }}&activityid={{ activity.id }}" class="btn btn-primary">Join</a>
+      {% endif %}
     </div>
   </div>
 {% endfor %}

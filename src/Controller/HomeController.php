@@ -9,6 +9,8 @@
 
 namespace App\Controller;
 
+use App\Model\ActivityManager;
+
 class HomeController extends AbstractController
 {
     /**
@@ -23,6 +25,9 @@ class HomeController extends AbstractController
     {
         session_start();
 
-        return $this->twig->render('Home/index.html.twig');
+
+
+        return $this->twig->render('Home/index.html.twig', [
+            'lastactivities' => (new ActivityManager())->selectLast3Activities()]);
     }
 }

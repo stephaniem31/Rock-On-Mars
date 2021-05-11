@@ -81,4 +81,12 @@ class ActivityManager extends AbstractManager
 
         return $statement->fetchAll();
     }
+
+    public function selectLast3Activities()
+    {
+
+        $query = "SELECT * FROM " . static::TABLE . " ORDER BY id DESC LIMIT 3";
+
+        return $this->pdo->query($query)->fetchAll();
+    }
 }
