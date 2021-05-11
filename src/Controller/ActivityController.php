@@ -43,8 +43,11 @@ class ActivityController extends AbstractController
      */
     public function show(): string
     {
+        session_start();
+
         return $this->twig->render('Activity/show.html.twig', [
-            'activity' => (new ActivityManager())->selectOneAndJoinMemberByActivityId((int)$_GET['id'])
+            'activity' => (new ActivityManager())->selectOneAndJoinMemberByActivityId((int)$_GET['id']),
+            'user' => $_SESSION['user']
         ]);
     }
 
