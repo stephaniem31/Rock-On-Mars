@@ -64,7 +64,13 @@ class ActivityController extends AbstractController
             array_push($errors, $this->validationService->checkAddFormEmptiness());
             array_push($errors, $this->validationService->checkAddImage());
 
-            if (empty($errors)) {
+            $hasNotErrors = false;
+            foreach($errors as $error)
+            {
+                $error === null ?  $hasNotErrors = true : $hasNotErrors = false;
+            }
+
+            if ($hasNotErrors === true) {
                 $activity = [
                     'name' => $_POST['title'],
                     'activity_type' => $_POST['activity_type'],
