@@ -1,10 +1,12 @@
-<div class="card" style="width: 18rem;">
-  <img src="{{ activity.image }}" class="card-img-top" alt="...">
-  <div class="card-body">
-    <span class="badge bg-primary">{{ activity.type }}</span>
-    <h5 class="card-title">{{ activity.name }}</h5>
-    <p class="card-text">{{ activity.content }}</p>
-    <p class="card-text">{{ activity.start_at }}</p>
-    <a href="/activity/{{ activity.id }}" class="btn btn-primary">Join</a>
+{% for activity in activities %}
+  <div class="card" style="width: 18rem;">
+    <img src="{{ activity.image }}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <span class="badge bg-primary">{{ activity.type }}</span>
+      <h5 class="card-title">{{ activity.name }}</h5>
+      <p class="card-text">{{ activity.content }}</p>
+      <p class="card-text">{{ activity.start_at }}</p>
+      <a href="/activity/{{ activity.id }}" class="btn btn-primary">Join</a>
+    </div>
   </div>
-</div>
+{% endfor %}
