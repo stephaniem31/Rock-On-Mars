@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\ItemManager;
 use App\Model\ActivityManager;
+use Symfony\Component\HttpClient\HttpClient;
 
 class ActivityController extends AbstractController
 {
@@ -13,7 +14,7 @@ class ActivityController extends AbstractController
     public function index(): string
     {
         $activityManager = new ActivityManager();
-        $activity = $activityManager->selectAll('title');
+        $activity = $activityManager->selectAll();
 
         return $this->twig->render('Activity/index.html.twig', ['activity' => $activity]);
     }
@@ -22,10 +23,18 @@ class ActivityController extends AbstractController
     /**
      * Show informations for a specific item
      */
-    public function show(int $id): string
+    public function show($id): string
     {
         $activityManager = new ActivityManager();
         $activity = $activityManager->selectOneById($id);
+
+
+        // $client = HttpClient::create();
+        // $response = $client->request('GET', 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=sGRiW62hIIGP2B3zRgfyyJ8bJn7qJeFx5lnza8PT');
+        // $content = $response->toArray();
+
+        // var_dump($content);
+        // exit;
 
         return $this->twig->render('Activity/show.html.twig', ['activity' => $activity]);
     }
