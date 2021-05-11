@@ -78,7 +78,6 @@ class ActivityController extends AbstractController
             $hasNotErrors = false;
 
             foreach ($errors as $error) {
-
                 $error === null ?  $hasNotErrors = true : $hasNotErrors = false;
             }
 
