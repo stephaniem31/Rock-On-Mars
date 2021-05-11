@@ -2,25 +2,13 @@
 
 namespace App\Controller;
 
-use App\Model\ItemManager;
 use App\Model\ActivityManager;
 
 class ActivityController extends AbstractController
 {
-    /**
-     * List items
-     */
-    public function index(): string
-    {
-        $activityManager = new ActivityManager();
-        $activity = $activityManager->selectAll('title');
-
-        return $this->twig->render('Activity/index.html.twig', ['activity' => $activity]);
-    }
-
 
     /**
-     * Show informations for a specific item
+     * Show informations for a specific activity
      */
     public function show(int $id): string
     {
@@ -30,62 +18,51 @@ class ActivityController extends AbstractController
         return $this->twig->render('Activity/show.html.twig', ['activity' => $activity]);
     }
 
-
     /**
-     * Edit a specific item
-     */
-    public function edit(int $id): string
-    {
-        $activityManager = new ActivityManager();
-        $activity = $activityManager->selectOneById($id);
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // clean $_POST data
-            $activity = array_map('trim', $_POST);
-
-            // TODO validations (length, format...)
-
-            // if validation is ok, update and redirection
-            $activityManager->update($activity);
-            header('Location: /activity/show/' . $id);
-        }
-
-        return $this->twig->render('Item/edit.html.twig', [
-            'activity' => $activity,
-        ]);
-    }
-
-
-    /**
-     * Add a new item
+     * Add a new activity
      */
     public function add(): string
     {
+        $errors = [];
+        $arrExtensionsOK = ['jpg','svg','png', 'jpeg'];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // clean $_POST data
-            $activity = array_map('trim', $_POST);
+            // echo '<pre>';
+            // var_dump($_POST);
+            // exit;
+            // echo '<pre>';
+            $extension = (pathinfo($_POST['image'], PATHINFO_EXTENSION));
 
-            // TODO validations (length, format...)
+            if (
+                empty($_POST['title']) || empty($_POST['activity_type'])
+                || empty($_POST['content']) || empty($_POST['max_registered_members'])
+                || empty($_POST['localisation']) || empty($_POST['start_at'])
+                || empty($_POST['end_at']) || empty($_POST['image'])
+            ) {
+                array_push($errors, 'Veuillez remplir tout les champs.');
+            }
 
-            // if validation is ok, insert and redirection
-            $activityManager = new ActivityManager();
-            $id = $activityManager->insert($activity);
-            header('Location:/activity/show/' . $id);
+            if (!in_array($extension, $arrExtensionsOK)) {
+                array_push($errors, "L'url doit amener sur un fichier png, jpg, jpeg ou svg.");
+            }
+
+            if (empty($errors)) {
+                $activity = [
+                    'name' => $_POST['title'],
+                    'activity_type' => $_POST['activity_type'],
+                    'content' => $_POST['content'],
+                    'max_registered_members' => $_POST['max_registered_members'],
+                    'localisation' => $_POST['localisation'],
+                    'start_at' => $_POST['start_at'],
+                    'end_at' => $_POST['end_at'],
+                    'image' => $_POST['image'],
+                    'member_id' => ($_SESSION['user']['id']),
+                ];
+                (new ActivityManager())->insert($activity);
+                header('Location:/activity/index');
+            }
+            // header('Location:/activity/index/');
         }
 
-        return $this->twig->render('Activity/add.html.twig');
-    }
-
-
-    /**
-     * Delete a specific item
-     */
-    public function delete(int $id)
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $activityManager = new ActivityManager();
-            $activityManager->delete($id);
-            header('Location:/activity/index');
-        }
+        return $this->twig->render('Activity/add.html.twig', [ 'errors' => $errors]);
     }
 }
