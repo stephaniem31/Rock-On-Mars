@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+
 use App\Model\MemberManager;
 
 
 class MemberController extends AbstractController
 {
     public function login()
+
     {
         if (!empty($_POST)) {
             $pseudo = $_POST['pseudo'];
