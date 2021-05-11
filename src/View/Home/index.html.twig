@@ -1,6 +1,7 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
+{% set isOnHome = true %}
 <div class="container-fluid">
 	<div class="row justify-content-center text-center mt-3 mb-3">
 		<h1>Are you feeling lonely?</h1>
@@ -15,9 +16,9 @@
 	</div>
 	<div class="row justify-content-center text-center mb-3">
 		<h2>Latest activities</h2>
-		{% for activity in activities %}
-			{% include "Components/_card.html.twig" %}
-		{% endfor %}
+			{% include "Components/_card.html.twig" with { 
+                activities: lastactivities,
+            }%}
 	</div>
 </div>
 
