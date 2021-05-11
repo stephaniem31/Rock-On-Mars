@@ -1,11 +1,19 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
+
 	<div class="container">
 		<div class="row text-center mt-3 mb-3">
 			<h1>Create an activity</h1>
 		</div>
-		<form class="row g-3">
+
+    {% if errors %}
+        {% for error in errors %}
+            <p class="text-danger text-center">{{ error }}</p>
+        {% endfor %}
+    {% endif %}
+
+		<form class="row g-3" method='post'>
 			<div class="col-12 text-center mb-3">
 				<label for="title" class="form-label">Title</label>
 				<input type="text" class="form-control border border-primary" id="title" name="title">
@@ -28,11 +36,11 @@
 			</div>
 			<div class="col-12 col-md-6 text-center">
 				<label for="start_at" class="form-label">Start at</label>
-				<input type="text" class="form-control border border-primary" id="start_at" name="start_at">
+				<input type="datetime-local" class="form-control border border-primary" id="start_at" name="start_at">
 			</div>
 			<div class="col-12 col-md-6 text-center">
 				<label for="end_at" class="form-label">End at</label>
-				<input type="text" class="form-control border border-primary" id="end_at" name="end_at">
+				<input type="datetime-local" class="form-control border border-primary" id="end_at" name="end_at">
 			</div>
 			<div class="col-12 text-center mb-3">
 				<label for="image" class="form-label">Image</label>
