@@ -1,3 +1,7 @@
 .bg-primary, .btn-primary {
     background-color: #f04502 !important;
 }
+
+.border-primary {
+    border-color: #f04502 !important;
+}

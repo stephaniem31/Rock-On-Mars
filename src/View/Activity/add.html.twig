@@ -1,0 +1,47 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+	<div class="container">
+		<div class="row text-center mt-3 mb-3">
+			<h1>Create an activity</h1>
+		</div>
+		<form class="row g-3">
+			<div class="col-12 text-center mb-3">
+				<label for="title" class="form-label">Title</label>
+				<input type="text" class="form-control border border-primary" id="title" name="title">
+			</div>
+			<div class="col-12 text-center mb-3">
+				<label for="activity_type" class="form-label">Activity Type</label>
+				<input type="text" class="form-control border border-primary" id="activity_type" name="activity_type">
+			</div>
+			<div class="col-12 text-center mb-3">
+				<label for="content" class="form-label">Description</label>
+				<textarea type="text" class="form-control border border-primary" id="content" name="content" placeholder="Describe your activity"></textarea>
+			</div>
+			<div class="col-12 text-center mb-3">
+				<label for="max_registered_members" class="form-label">Group Capacity</label>
+				<input type="number" class="form-control border border-primary" id="max_registered_members" name="max_registered_members">
+			</div>
+			<div class="col-12 text-center mb-3">
+				<label for="localisation" class="form-label">Location</label>
+				<input type="text" class="form-control border border-primary" id="localisation" name="localisation">
+			</div>
+			<div class="col-12 col-md-6 text-center">
+				<label for="start_at" class="form-label">Start at</label>
+				<input type="text" class="form-control border border-primary" id="start_at" name="start_at">
+			</div>
+			<div class="col-12 col-md-6 text-center">
+				<label for="end_at" class="form-label">End at</label>
+				<input type="text" class="form-control border border-primary" id="end_at" name="end_at">
+			</div>
+			<div class="col-12 text-center mb-3">
+				<label for="image" class="form-label">Image</label>
+				<input type="text" class="form-control border border-primary" id="image" name="image">
+			</div>
+			<div class="col-12 text-center">
+				<button type="submit" class="btn btn-primary">Sign in</button>
+			</div>
+		</form>
+	</div>
+{% endblock %}
+
