@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <div class="row text-center mt-3 mb-3">
-            <h1>Bienvenue Loulou</h1>
+            <h1>Bienvenue {{ user.name }}</h1>
         </div>
         <div class="row text-center mt-3 mb-3">
             <h4>Rechercher des activités en fonction du type</h4>
@@ -15,9 +15,9 @@
             <h4>All Activities</h4>
         </div>
         <div class="row mt-3 mb-3 justify-content-center">
-            {% for activity in activities %}
-                {% include "Components/_card.html.twig" %}
-            {% endfor %}
+                {% include "Components/_card.html.twig" with { 
+                activities: activities,
+            }%}
         </div>
     </div>
 {% endblock %}

@@ -51,4 +51,24 @@ class ActivityManager extends AbstractManager
 
         return $statement->execute();
     }
+
+    public function selectAllByActivityType($activityType)
+    {
+
+        $statement = $this->pdo->prepare("SELECT * FROM " . static::TABLE . " WHERE activity_type =:activityType");
+        $statement->bindValue('activity_type', $activityType, \PDO::PARAM_STR);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    public function selectOneAndJoinMemberByActivityId($id)
+    {
+        $statement = $this->pdo->prepare("SELECT a.*, m.name as creator_name FROM member m 
+        JOIN " . static::TABLE . " a ON a.id = :id");
+        $statement->bindValue(':id', $id, \PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetch();
+    }
 }

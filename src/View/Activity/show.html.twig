@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+{% block content %}
+    <img src='{{ activity.image }}' style='height: 200px; width: 200px'>
+    <p> Activity name : {{ activity.name }} </p>
+    <p> Location : {{ activity.localisation }} </p>
+    <p> Start at : {{ activity.start_at }} </p>
+    <p> End at :{{ activity.end_at }} </p>
+    <p> Type of activity : {{ activity.activity_type }} </p>
+    <p> Maximum of participants : {{ activity.max_registered_members }} </p>
+    <p> Description : {{ activity.content }} </p>
+    <p> Event created by : {{ activity.creator_name }}
+    <p>
+        <a href="/activity/join/?memberid={{ user.id }}&activityid={{ activity.id }}" class="btn btn-primary">Join</a>
+    </p>  
+{% endblock %}
