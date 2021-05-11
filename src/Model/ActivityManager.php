@@ -9,10 +9,21 @@ class ActivityManager extends AbstractManager
     /**
      * Insert new item in database
      */
-    public function insert(array $item): int
+    public function insert(array $activity): int
     {
-        $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`title`) VALUES (:title)");
-        $statement->bindValue('title', $item['title'], \PDO::PARAM_STR);
+        $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`name`, `image`,`localisation`,
+        `start_at`,`end_at`, `activity_type`, `content`, `max_registered_members`, `member_id`) 
+        VALUES (:name, :image, :localisation, :start_at, :end_at, :activity_type, :content,
+        :max_registered_members, :member_id)");
+        $statement->bindValue(':name', $activity['name'], \PDO::PARAM_STR);
+        $statement->bindValue(':image', $activity['image'], \PDO::PARAM_STR);
+        $statement->bindValue(':localisation', $activity['localisation'], \PDO::PARAM_STR);
+        $statement->bindValue(':start_at', $activity['start_at'], \PDO::PARAM_STR);
+        $statement->bindValue(':end_at', $activity['end_at'], \PDO::PARAM_STR);
+        $statement->bindValue(':activity_type', $activity['activity_type'], \PDO::PARAM_STR);
+        $statement->bindValue(':content', $activity['content'], \PDO::PARAM_STR);
+        $statement->bindValue(':max_registered_members', $activity['max_registered_members'], \PDO::PARAM_INT);
+        $statement->bindValue(':member_id', $activity['member_id'], \PDO::PARAM_INT);
 
         $statement->execute();
         return (int)$this->pdo->lastInsertId();
@@ -21,11 +32,22 @@ class ActivityManager extends AbstractManager
     /**
      * Update item in database
      */
-    public function update(array $item): bool
+    public function update(array $activity): bool
     {
-        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `title` = :title WHERE id=:id");
-        $statement->bindValue('id', $item['id'], \PDO::PARAM_INT);
-        $statement->bindValue('title', $item['title'], \PDO::PARAM_STR);
+        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `name` = :name,
+        `image` = :image, `localisation` = :localisation,`start_at` = :start_at,`end_at` = :end_at,
+        `activity_type` = :activity_type, `content` = :content, `max_registered_members` = :max_registered_members,
+        `member_id` = :member_id,
+         WHERE id=:id");
+         $statement->bindValue(':name', $activity['name'], \PDO::PARAM_STR);
+         $statement->bindValue(':image', $activity['image'], \PDO::PARAM_STR);
+         $statement->bindValue(':localisation', $activity['localisation'], \PDO::PARAM_STR);
+         $statement->bindValue(':start_at', $activity['start_at'], \PDO::PARAM_STR);
+         $statement->bindValue(':end_at', $activity['end_at'], \PDO::PARAM_STR);
+         $statement->bindValue(':activity_type', $activity['activity_type'], \PDO::PARAM_STR);
+         $statement->bindValue(':content', $activity['content'], \PDO::PARAM_STR);
+         $statement->bindValue(':max_registered_members', $activity['max_registered_members'], \PDO::PARAM_INT);
+         $statement->bindValue(':member_id', $activity['member_id'], \PDO::PARAM_INT);
 
         return $statement->execute();
     }
