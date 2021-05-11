@@ -51,8 +51,10 @@ class ActivityController extends AbstractController
 
         $participantsName = [];
 
-        foreach ($participantsId as $participantId) {
-            array_push($participantsName, ((new MemberManager())->selectOnlyNameById((int)$participantId)));
+        foreach ($participantsId as $key) {
+            foreach ($key as $participantId) {
+                array_push($participantsName, ((new MemberManager())->selectOnlyNameById((int)$participantId)));
+            }
         }
 
         return $this->twig->render('Activity/show.html.twig', [
@@ -113,5 +115,16 @@ class ActivityController extends AbstractController
 
         (new GatheringManager())->insert($_GET);
         header('Location:/activity/show/?id=' . $_GET['activityid']);
+    }
+
+    public function myactivities()
+    {
+        session_start();
+
+        if ($_GET['user'] !== $_SESSION['user']['name']) {
+            header('Location: /activity/index');
+        } else {
+            echo 'vous êtes bien ' . $_SESSION['user']['name'];
+        }
     }
 }
