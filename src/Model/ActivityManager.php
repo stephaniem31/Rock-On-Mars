@@ -56,7 +56,7 @@ class ActivityManager extends AbstractManager
     {
 
         $statement = $this->pdo->prepare("SELECT * FROM " . static::TABLE . " WHERE activity_type =:activityType");
-        $statement->bindValue('activity_type', $activityType, \PDO::PARAM_STR);
+        $statement->bindValue(':activityType', $activityType, \PDO::PARAM_STR);
         $statement->execute();
 
         return $statement->fetchAll();
