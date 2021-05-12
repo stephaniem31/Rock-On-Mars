@@ -27,4 +27,15 @@ class GatheringManager extends AbstractManager
 
         return $statement->fetchAll();
     }
+
+    public function selectJoinedActivitybymemberId($id)
+    {
+        $statement = $this->pdo->prepare("SELECT * FROM " . static::TABLE .
+        " as g LEFT JOIN activity as a ON g.activity_id = a.id" .
+        " WHERE g.member_id = :id");
+        $statement->bindValue(':id', $id, \PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
 }

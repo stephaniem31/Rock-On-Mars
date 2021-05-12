@@ -1,6 +1,9 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
+<pre>
+    {{ dump(joinactivities) }}
+</pre>
     <div class="container">
         <div class="row text-center mt-3 mb-3">
             <h1>Bienvenue {{ user.name }}</h1>
@@ -11,6 +14,14 @@
         <div class="row mt-3 mb-3 justify-content-center">
                 {% include "Components/_card.html.twig" with { 
                 activities: myactivities,
+            }%}
+        </div>
+        <div class="row text-center mt-3 mb-3">
+            <h4>Joined Activities</h4>
+        </div>
+        <div class="row mt-3 mb-3 justify-content-center">
+                {% include "Components/_card.html.twig" with { 
+                activities: joinactivities,
             }%}
         </div>
     </div>

@@ -151,7 +151,8 @@ class ActivityController extends AbstractController
             header('Location: /activity/index');
         } else {
             return $this->twig->render('Activity/myactivities.html.twig', [
-                'myactivities' => (new ActivityManager())->selectAllByMemberId($_SESSION['user']['id'])
+                'myactivities' => (new ActivityManager())->selectAllByMemberId($_SESSION['user']['id']),
+                'joinactivities' => (new GatheringManager())->selectJoinedActivitybymemberId($_SESSION['user']['id']),
             ]);
         }
     }
