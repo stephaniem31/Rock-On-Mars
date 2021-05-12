@@ -1,53 +1,6 @@
 {% extends 'layout.html.twig' %}
 {% block content %}
-    <img src='{{ activity.image }}' style='height: 200px; width: 200px'>
-    <p> Activity name : {{ activity.name }} </p>
-    <p> Location : {{ activity.localisation }} </p>
-    <p> Start at : {{ activity.start_at }} </p>
-    <p> End at :{{ activity.end_at }} </p>
-    <p> Type of activity : {{ activity.activity_type }} </p>
-    <p> Maximum of participants : {{ activity.max_registered_members }} </p>
-    <p> Description : {{ activity.content }} </p>
-    <p> Event created by : {{ activity.creator_name }}
-    <p>
-        <a href="/activity/join/?memberid={{ user.id }}&activityid={{ activity.id }}" class="btn btn-primary">Join</a>
-    </p>
-    <p>Participants:</p>
-    {% if participants is not empty %}
-        {% for participant in participants %}
-            <li>{{ participant }} </li>
-        {% endfor %}
-    {% endif %}
-<div class="container">
-	<div class="row flex-column align-items-center text-center my-5 border border-primary">
-		<h1 class="mb-2">
-			{{ activity.name }}
-		</h1>
-		<img class="my-2" src='{{ activity.image }}' style='height: 200px; width: 200px'>
-		<p class="my-2">
-			Location : {{ activity.localisation }}
-		</p>
-		<p class="my-2">
-			Type of activity : {{ activity.activity_type }}
-		</p>
-		<p class="my-2">
-			Maximum of participants : {{ activity.max_registered_members }}
-		</p>
-		<p class="my-2">
-			Description : {{ activity.content }}
-		</p>
-		<p class="my-2">
-			Event created by : {{ activity.creator_name }}
-		</p>
-		<p class="mt-2">
-			Start at : {{ activity.start_at }}
-		</p>
-		<p class="mb-2">
-			End at : {{ activity.end_at }}
-		</p>
-		<p class="my-2">
-			<a href="/activity/join/?memberid={{ user.id }}&activityid={{ activity.id }}" class="btn btn-primary">Join</a>
-		</p>
+
 	<div class="container">
 		<div class="row flex-column align-items-center text-center my-5">
 			<div class="col-10 col-lg-6 rounded-3 detailled-activity text-light p-3">
@@ -86,6 +39,13 @@
 				<p class="my-2">
 					<a href="/activity/join/?memberid={{ user.id }}&activityid={{ activity.id }}" class="btn btn-primary">Join</a>
 				</p>
+				<p>Participants:</p>
+				{% if participants is not empty %}
+					{% for participant in participants %}
+						<li>{{ participant }}
+						</li>
+					{% endfor %}
+				{% endif %}
 			</div>
 		</div>
 	</div>

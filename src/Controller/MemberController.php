@@ -52,7 +52,7 @@ class MemberController extends AbstractController
                 $nameArray = $memberManager->selectOneByName($_POST['pseudo']);
                 $nameArray['is_logged'] = true;
                 $_SESSION['user'] = $nameArray;
-                header('Location: /home/index');
+                header('Location: /activity/index');
             } else {
                 header('Location: /Home/index');
             }
