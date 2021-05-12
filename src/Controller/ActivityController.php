@@ -91,7 +91,18 @@ class ActivityController extends AbstractController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             array_push($errors, $this->validationService->checkAddFormEmptiness());
-            array_push($errors, $this->validationService->checkAddImage());
+
+            $image = '';
+
+            if ($_POST['activity_type'] === 'sport') {
+                $image = '/assets/images/sport.jpg';
+            }
+            if ($_POST['activity_type'] === 'entertainment') {
+                $image = '/assets/images/entertainment.png';
+            }
+            if ($_POST['activity_type'] === 'culture') {
+                $image = '/assets/images/culture.jpeg';
+            }
 
             $hasNotErrors = false;
 
@@ -108,7 +119,7 @@ class ActivityController extends AbstractController
                     'localisation' => $_POST['localisation'],
                     'start_at' => $_POST['start_at'],
                     'end_at' => $_POST['end_at'],
-                    'image' => $_POST['image'],
+                    'image' => $image,
                     'member_id' => ($_SESSION['user']['id']),
                 ];
                 $activityId =  (new ActivityManager())->insert($activity);
@@ -168,7 +179,8 @@ class ActivityController extends AbstractController
         ]);
     }
 
-    public function search() {
+    public function search()
+    {
         session_start();
 
         return $this->twig->render('Activity/index.html.twig', [

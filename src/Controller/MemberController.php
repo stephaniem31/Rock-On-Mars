@@ -69,7 +69,6 @@ class MemberController extends AbstractController
         if (isset($_SESSION["user"])) {
             header('Location: /activity/index');
         }
-        session_start();
         session_destroy();
         header('Location: /Home/index');
     }
