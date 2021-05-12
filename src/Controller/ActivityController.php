@@ -33,18 +33,15 @@ class ActivityController extends AbstractController
 
         if (!isset($_SESSION["user"])) {
             return $this->twig->render("Home/index.html.twig");
-        }else{
+        } else {
             $activityManager = new ActivityManager();
             $activities = $activityManager->selectAll();
-            
+
             return $this->twig->render('Activity/index.html.twig', [
                 'activities' => $activities,
                 'user' => $_SESSION['user']
                 ]);
         }
-        
-
-
     }
     /**
      * Show informations for a specific activity
@@ -156,7 +153,7 @@ class ActivityController extends AbstractController
         session_start();
 
         if (!isset($_SESSION["user"])) {
-            header('Location: /home/index');
+            return $this->twig->render("Home/index.html.twig");
         }
 
         if ($_GET['user'] !== $_SESSION['user']['name']) {

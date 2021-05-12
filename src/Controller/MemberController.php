@@ -20,14 +20,17 @@ class MemberController extends AbstractController
             $password = $_POST['password'];
             $memberArray = (new MemberManager())->selectOneByName($pseudo);
 
-            if (password_verify($password, $memberArray['password'])) {
-                $_SESSION['user'] = $memberArray;
-                header('Location: /activity/index');
+            if ($memberArray === true) {
+                if (password_verify($password, $memberArray['password'])) {
+                    $_SESSION['user'] = $memberArray;
+                    header('Location: /activity/index');
+                } else {
+                    $error = 'Identifiants incorrects';
+                }
             } else {
                 $error = 'Identifiants incorrects';
             }
         }
-
         return $this->twig->render('Member/login.html.twig', [
             'error' => $error,
         ]);
