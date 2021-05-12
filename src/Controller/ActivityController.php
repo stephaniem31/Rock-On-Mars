@@ -138,16 +138,10 @@ class ActivityController extends AbstractController
     {
         session_start();
 
-        if ($_GET['user'] !== $_SESSION['user']['name']) {
-            header('Location: /activity/index');
-        }
-
         $apiGet = new ApiGet();
-        $url = 'https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/
-        photos?earth_date=2020-04-03&api_key=sGRiW62hIIGP2B3zRgfyyJ8bJn7qJeFx5lnza8PT';
 
         return $this->twig->render('Activity/gallery.html.twig', [
-            'photos' => $apiGet->getPhotoApi($url),
+            'photos' => $apiGet->getPhotoApi('https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?earth_date=2020-04-03&api_key=sGRiW62hIIGP2B3zRgfyyJ8bJn7qJeFx5lnza8PT'),
         ]);
     }
 }
