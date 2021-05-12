@@ -141,7 +141,7 @@ class ActivityController extends AbstractController
         $apiGet = new ApiGet();
 
         return $this->twig->render('Activity/gallery.html.twig', [
-            'photos' => $apiGet->getPhotoApi('https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?earth_date=2020-04-03&api_key=sGRiW62hIIGP2B3zRgfyyJ8bJn7qJeFx5lnza8PT'),
+            'photos' => $apiGet->getPhotoApi('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2021-04-30&api_key=sGRiW62hIIGP2B3zRgfyyJ8bJn7qJeFx5lnza8PT'),
         ]);
     }
 }
