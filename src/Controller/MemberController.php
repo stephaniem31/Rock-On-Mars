@@ -35,6 +35,8 @@ class MemberController extends AbstractController
 
     public function signUp()
     {
+        session_start();
+
         if (isset($_SESSION["user"])) {
             header('Location: /activity/index');
         }
