@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\ActivityManager;
 use App\Model\GatheringManager;
 use App\Model\MemberManager;
+use App\Service\ApiGet;
 use Symfony\Component\HttpClient\HttpClient;
 use App\Service\ValidationService;
 
@@ -131,5 +132,16 @@ class ActivityController extends AbstractController
                 'myactivities' => (new ActivityManager())->selectAllByMemberId($_SESSION['user']['id'])
             ]);
         }
+    }
+
+    public function gallery()
+    {
+        session_start();
+
+        $apiGet = new ApiGet();
+
+        return $this->twig->render('Activity/gallery.html.twig', [
+            'photos' => $apiGet->getPhotoApi('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2021-04-30&api_key=sGRiW62hIIGP2B3zRgfyyJ8bJn7qJeFx5lnza8PT'),
+        ]);
     }
 }
