@@ -47,6 +47,8 @@ class ActivityController extends AbstractController
     {
         session_start();
 
+        $activityManager = new ActivityManager();
+
         $participantsId = (new GatheringManager())->selectAllParticipantsbyActivityId((int)$_GET['id']);
 
         $participantsName = [];
@@ -58,7 +60,8 @@ class ActivityController extends AbstractController
         }
 
         return $this->twig->render('Activity/show.html.twig', [
-            'activity' => (new ActivityManager())->selectOneAndJoinMemberByActivityId((int)$_GET['id']),
+            'activity' =>
+            $activityManager->selectOneAndJoinMemberById($activityManager->selectOneById((int)$_GET['id'])),
             'user' => $_SESSION['user'],
             'participants' => $participantsName
         ]);
