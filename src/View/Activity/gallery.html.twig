@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+	<div class="container">
+		<div class="row row-wrap">
+			<h1 class="text-center text-light mt-3 mb-5">Photo from our members</h1>
+			{% for photo in photos %}
+                {% for image in photo | slice(0,12) %}
+				<div class="col-4 my-4">
+					<img class="img-thumbnail w-75" src="{{ image.img_src }}" alt="">
+				</div>
+                {% endfor %}
+			{% endfor %}
+            
+		</div>
+	</div>
+{% endblock %}
