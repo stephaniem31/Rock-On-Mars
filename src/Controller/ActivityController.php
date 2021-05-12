@@ -30,6 +30,10 @@ class ActivityController extends AbstractController
     {
         session_start();
 
+        if (!isset($_SESSION["user"])) {
+            header('Location: /home/index');
+        }
+
         $activityManager = new ActivityManager();
         $activities = $activityManager->selectAll();
 
@@ -46,6 +50,10 @@ class ActivityController extends AbstractController
     public function show(): string
     {
         session_start();
+
+        if (!isset($_SESSION["user"])) {
+            header('Location: /home/index');
+        }
 
         $activityManager = new ActivityManager();
 
@@ -73,6 +81,10 @@ class ActivityController extends AbstractController
     public function add(): string
     {
         session_start();
+
+        if (!isset($_SESSION["user"])) {
+            header('Location: /home/index');
+        }
 
         $errors = [];
 
@@ -114,6 +126,12 @@ class ActivityController extends AbstractController
 
     public function join()
     {
+        session_start();
+
+        if (!isset($_SESSION["user"])) {
+            header('Location: /home/index');
+        }
+
         $_GET = array_map('intval', $_GET);
 
         (new GatheringManager())->insert($_GET);
@@ -123,6 +141,10 @@ class ActivityController extends AbstractController
     public function myactivities()
     {
         session_start();
+
+        if (!isset($_SESSION["user"])) {
+            header('Location: /home/index');
+        }
 
         if ($_GET['user'] !== $_SESSION['user']['name']) {
             header('Location: /activity/index');

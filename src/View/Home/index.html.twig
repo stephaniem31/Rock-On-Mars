@@ -9,9 +9,9 @@
 		<p class="fs-4">You already are a member</p>
 		<a class="col-auto btn btn-primary mb-5" href="/member/login">Login</a>
 		<h2 class="mb-3">Latest activities</h2>
-		{% for activity in activities %}
-			{% include "Components/_card.html.twig" %}
-		{% endfor %}
+			{% include "Components/_card.html.twig" with {
+				activities : lastactivities	
+			}%}
 	</div>
 </div>
 
