@@ -29,3 +29,8 @@ form, .detailled-activity, .card {
     border-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.35) rgba(255, 255, 255, 0.2);
     box-shadow: 10px 7px 5px rgba(0, 0, 0, 0.363);
 }
+
+/* #navbarNav {
+    position:absolute;
+    left: 35%;
+} */
