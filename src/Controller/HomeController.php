@@ -25,8 +25,6 @@ class HomeController extends AbstractController
     {
         session_start();
 
-
-
         return $this->twig->render('Home/index.html.twig', [
             'lastactivities' => (new ActivityManager())->selectLast3Activities()]);
     }
