@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+	{% if error %}
+	    <p class="text-warning text-center">{{ error }}</p>
+	{% endif %}
+<script>
+
+    setTimeout(function () {
+   //Redirection vers index
+   window.location.href= '/activity/index';
+}, 2000);
+</script>
+{% endblock %}

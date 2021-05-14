@@ -6,6 +6,7 @@ class MemberManager extends AbstractManager
 {
     public const TABLE = 'member';
 
+
     /**
      * Insert new member in database
      */
@@ -30,7 +31,6 @@ class MemberManager extends AbstractManager
      */
     public function selectOneByName($name)
     {
-
         $statement = $this->pdo->prepare("SELECT * FROM " . static::TABLE . " WHERE name=:name");
         $statement->bindValue('name', $name, \PDO::PARAM_STR);
         $statement->execute();

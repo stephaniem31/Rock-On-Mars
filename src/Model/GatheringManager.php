@@ -25,7 +25,7 @@ class GatheringManager extends AbstractManager
         $statement->bindValue(':id', $id, \PDO::PARAM_INT);
         $statement->execute();
 
-        return $statement->fetchAll();
+        return $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
     }
 
     public function selectJoinedActivitybymemberId($id)

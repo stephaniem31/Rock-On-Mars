@@ -62,11 +62,12 @@ class ActivityManager extends AbstractManager
         return $statement->fetchAll();
     }
 
-    public function selectOneAndJoinMemberById($activity)
+    public function selectOneAndJoinMemberById(array $activity)
     {
         $statement = $this->pdo->prepare("SELECT a.*, m.name as creator_name FROM " . static::TABLE . " a
-        JOIN member m ON m.id = :member_id");
+        JOIN member m ON m.id = :member_id WHERE a.id = :activity_id");
         $statement->bindValue(':member_id', $activity['member_id'], \PDO::PARAM_INT);
+        $statement->bindValue(':activity_id', $activity['id'], \PDO::PARAM_INT);
         $statement->execute();
 
         return $statement->fetch();

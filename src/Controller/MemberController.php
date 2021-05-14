@@ -10,9 +10,12 @@ class MemberController extends AbstractController
     {
         session_start();
 
+        // Redirige l'utilisateur si déjà connecté
         if (isset($_SESSION["user"])) {
             header('Location: /activity/index');
         }
+
+
         $error = '';
 
         if (!empty($_POST)) {
@@ -46,16 +49,19 @@ class MemberController extends AbstractController
             if ($_POST['password'] === $_POST['repeatpassword']) {
                 $memberManager = new MemberManager();
                 $passwordHashed = password_hash($_POST['password'], PASSWORD_BCRYPT);
-                $memberManager->insert([
+                $tableauAvecInformationNouveauMembre = [
                     'name' => trim($_POST['pseudo']),
                     'password' => trim($passwordHashed),
                     'bio' => trim($_POST['bio']),
                     'favorite_activity' => trim($_POST['fav-activity']),
+                ];
 
-                ]);
-                $nameArray = $memberManager->selectOneByName($_POST['pseudo']);
-                $nameArray['is_logged'] = true;
-                $_SESSION['user'] = $nameArray;
+                $memberManager->insert($tableauAvecInformationNouveauMembre);
+
+                // Correspond à la connexion du nouveau membre créé
+                $informationMembre = $memberManager->selectOneByName($_POST['pseudo']);
+                // $informationMembre['is_logged'] = true;
+                $_SESSION['user'] = $informationMembre;
                 header('Location: /activity/index');
             } else {
                 header('Location: /Home/index');
@@ -68,9 +74,10 @@ class MemberController extends AbstractController
     {
         session_start();
 
-        if (isset($_SESSION["user"])) {
+        if (!isset($_SESSION["user"])) {
             header('Location: /activity/index');
         }
+
         session_destroy();
         header('Location: /Home/index');
     }

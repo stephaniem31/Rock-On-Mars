@@ -60,15 +60,18 @@ class ActivityController extends AbstractController
 
         $participantsName = [];
 
-        foreach ($participantsId as $key) {
-            foreach ($key as $participantId) {
-                array_push($participantsName, ((new MemberManager())->selectOnlyNameById((int)$participantId)));
-            }
+        foreach ($participantsId as $participantId) {
+            array_push($participantsName, ((new MemberManager())->selectOnlyNameById((int)$participantId)));
         }
 
+        $idConvertToInteger = intval($_GET['id']);
+
+        $cardActivity = $activityManager->selectOneById($idConvertToInteger);
+
+        $activityWithCreator = $activityManager->selectOneAndJoinMemberById($cardActivity);
+
         return $this->twig->render('Activity/show.html.twig', [
-            'activity' =>
-            $activityManager->selectOneAndJoinMemberById($activityManager->selectOneById((int)$_GET['id'])),
+            'activity' => $activityWithCreator,
             'user' => $_SESSION['user'],
             'participants' => $participantsName
         ]);
@@ -122,6 +125,8 @@ class ActivityController extends AbstractController
                 ];
                 $activityId =  (new ActivityManager())->insert($activity);
 
+                // Ajoute l'utilisateur qui a crée l'activité en tant que participant en même temps
+                // que la création de l'activité
                 $idArray = [
                     'memberid' => $_SESSION['user']['id'],
                     'activityid' => $activityId
@@ -142,10 +147,29 @@ class ActivityController extends AbstractController
             header('Location: /home/index');
         }
 
+        $error = "";
+
         $_GET = array_map('intval', $_GET);
 
-        (new GatheringManager())->insert($_GET);
-        header('Location:/activity/show/?id=' . $_GET['activityid']);
+        $gatheringManager = new GatheringManager();
+        // On va récupérer l'id dans Session USER
+
+        // On va récuperer un member_id du user dans la table gathering
+        $allParticipants = $gatheringManager->selectAllParticipantsbyActivityId((int)$_GET['activityid']);
+        // On compare les deux et si il existe déjà dans la table gathering
+        foreach ($allParticipants as $memberId) {
+            if ($_SESSION['user']['id'] === $memberId) {
+                $error = 'Vous êtes déjà inscrit à cette activité.';
+            }
+        }
+        if ($error !== 'Vous êtes déjà inscrit à cette activité.') {
+            $gatheringManager->insert($_GET);
+            header('Location:/activity/show/?id=' . $_GET['activityid']);
+        }
+        // on ne fait pas d'insertion en BDD
+        return $this->twig->render('Activity/errorJoin.html.twig', [
+            'error' => $error
+        ]);
     }
 
     public function myactivities()
