@@ -19,8 +19,7 @@ class MemberController extends AbstractController
             $pseudo = $_POST['pseudo'];
             $password = $_POST['password'];
             $memberArray = (new MemberManager())->selectOneByName($pseudo);
-
-            if ($memberArray === true) {
+            if (isset($memberArray)) {
                 if (password_verify($password, $memberArray['password'])) {
                     $_SESSION['user'] = $memberArray;
                     header('Location: /activity/index');
