@@ -1,3 +1,21 @@
+# Rock On Mars
+
+## Description
+
+Hackathon interne Wild Code School Toulouse
+
+**Sujet : The Lonely Martians | Etre seul sur mars**
+
+Afin de répondre à la problématique de la solitude, notre groupe à choisi de créer une application qui permet aux utilisateurs de créer ou bien de rejoindre une activité.
+
+**Collaborateurs :**
+- [Clément BACQUET](https://github.com/atx834)
+- [Quentin BURTY](https://github.com/Quentin-BURTY)
+- [Patrick VONGSA](https://github.com/PatrickVongsa)
+- Stéphanie MARIANI
+
+Durée du projet : 48h.
+
 # Simple MVC
 
 ## Description
